@@ -14,6 +14,7 @@ import com.stewart.web.mbg.pojo.UserRole;
 import com.stewart.web.mbg.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stewart.web.param.LoginParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-09
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Autowired
@@ -49,7 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public String getUserRole(String account) {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("account", account));
         UserRole userRole = userRoleMapper.selectOne(new QueryWrapper<UserRole>().eq("user_id", user.getId()));
-        Role role = roleMapper.selectById(userRole.getId());
+        Role role = roleMapper.selectById(userRole.getRoleId());
         return role.getName() ;
     }
 
